@@ -1,80 +1,443 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>root@elbazi.co:~#</title>
+    <meta name="description" content="Zakaria EL BAZI - Senior SRE & DevOps Engineer Portfolio">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --term-green: #23d18b;
+            --term-blue: #3b8eea;
+            --term-red: #e74c3c;
+            --term-yellow: #f1c40f;
+            --term-purple: #b39ddb;
+            --term-grey: #666;
+        }
 
-<!-- 
-  To change the theme, change the class on the html tag below to one of:
-  - theme-auto: Automatically switches based on user's system preferences
-  - theme-light: Forces light theme
-  - theme-dark: Forces dark theme
--->
+        * { box-sizing: border-box; }
 
-<html class="theme-auto" lang="en"> <!-- Update`class="theme-auto" with your preference -->
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--term-green);
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            overflow: hidden;
+            height: 100vh;
+            line-height: 1.5;
+        }
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        /* CRT Effect */
+        .crt {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            opacity: 0.15;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            height: 100%;
+            padding: 2rem;
+            padding-bottom: 5rem;
+            overflow-y: auto;
+            position: relative;
+            z-index: 60;
+        }
+        .container::-webkit-scrollbar { width: 8px; }
+        .container::-webkit-scrollbar-thumb { background: var(--term-green); border-radius: 4px; }
+        .container::-webkit-scrollbar-track { background: var(--bg-color); }
+
+        /* Typography */
+        .user { color: var(--term-blue); font-weight: bold; }
+        .at { color: #fff; }
+        .host { color: var(--term-red); font-weight: bold; }
+        .path { color: var(--term-yellow); }
+        .prompt-sign { color: #fff; margin-right: 8px; }
         
-    <!-- Page Title - Change this to your name/brand (50-60 characters recommended) -->
-    <title>Z4ck404 Links</title>
-    <link rel="icon" type="image/x-icon" href="/images/avatar.png"> <!-- Update this with your own favicon -->
-    
-    <!-- Meta Description - Write a description (150-160 characters recommended) -->
-    <meta name="description" content="AWS, Azure, Terraform and CNCF certified | I talk DevOps, AWS and sometimes random stuff (Finance, Philosophy, etc)">
-    
-    <!-- Keywords -->
-    <meta name="keywords" content="AWS, Azure, Terraform and CNCF certified | I talk DevOps, AWS and sometimes random stuff (Finance, Philosophy, etc)">
-    
-    <!-- Canonical URL - Helps prevent duplicate content issues -->
-    <meta rel="canonical" href="https://elbazi.co">
-    
-    <!-- Author Information -->
-    <meta name="author" content="Zakaria EL BAZI">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/brands.css">
+        .cmd-line { margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; align-items: center; }
+        
+        #real-input { position: absolute; opacity: 0; top: -1000px; }
 
-  </head>
+        .output { color: #ddd; margin-bottom: 1rem; white-space: pre-wrap; word-break: break-word; line-height: 1.3; }
+        
+        a { color: var(--term-blue); text-decoration: none; border-bottom: 1px dotted var(--term-blue); transition: all 0.3s; cursor: pointer; }
+        a:hover { background: var(--term-blue); color: #000; }
 
+        .info-label { color: var(--term-grey); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 3px; display: block; border-bottom: 1px dashed #333; padding-bottom: 2px; width: fit-content;}
+        
+        .ascii-art { color: var(--term-green); font-size: 10px; line-height: 10px; margin-bottom: 0.8rem; white-space: pre; font-weight: bold; }
+        @media (min-width: 768px) { .ascii-art { font-size: 14px; line-height: 14px; } }
+
+        .cursor { width: 10px; height: 1.2em; background: var(--term-green); display: inline-block; animation: blink 1s step-end infinite; vertical-align: middle; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Boot Screen */
+        #boot-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 999; padding: 2rem; font-family: 'Fira Code', monospace; display: flex; flex-direction: column; justify-content: flex-end; color: #ccc; }
+
+        /* Status Bar */
+        .status-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--term-green); color: #000; padding: 4px 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; z-index: 101; }
+
+        /* Content Blocks */
+        .key-val { display: flex; margin-bottom: 2px; }
+        .key { color: var(--term-green); min-width: 140px; }
+        .val { color: #fff; }
+        .comment { color: var(--term-grey); font-style: italic; }
+        
+        .exp-block { margin-bottom: 8px; margin-top: 4px; }
+        .exp-title { color: var(--term-yellow); font-weight: bold; }
+        .exp-company { color: var(--term-blue); display: inline-block; font-weight: bold;}
+        .exp-loc { color: #888; font-size: 0.9rem; }
+        .exp-date { color: var(--term-green); font-size: 0.9rem; display: inline; }
+        .exp-details { color: #ccc; font-size: 0.95rem; line-height: 1.3; padding-left: 2ch; }
+        
+        .file { color: var(--term-blue); font-weight: bold; }
+        .dir { color: var(--term-blue); font-weight: bold; }
+        .exec { color: var(--term-green); font-weight: bold; }
+        .ln { color: var(--term-purple); }
+        .permissions { color: var(--term-yellow); }
+        .size { color: var(--term-green); }
+        .date { color: var(--term-blue); }
+        .arrow { color: #fff; }
+        .total { color: var(--term-grey); }
+    </style>
+</head>
 <body>
 
-    <div class="container">
-        <div class="column">
+    <div class="crt"></div>
 
-            <!-- 
-              By default, the Avatar is rounded. Use the following:
-              - avatar--rounded: Automatically rounds the image
-              - avatar--soft: Slightly rounds the image
-              - avatar--none: Removes any rounding
-
-              Be sure to replace the src with your own image path and update the alt text
-            -->
-            <img class="avatar avatar--soft" src="https://cv.elbazi.co/images/zakaria.jpg" alt="Zakaria EL BAZI">
-            <h1 tabindex="0">
-                <div>Zakaria EL BAZI (#z4ck404) Links</div>
-            </h1>
-
-            <!-- Add a short description about yourself or your brand -->
-            <p tabindex="0"> AWS, Azure, Terraform and CNCF certified | I talk DevOps, AWS and sometimes random stuff (Finance, Philosophy, etc) </p>
-
-            <!-- All your buttons go here -->
-            <div class="button-stack" role="navigation">
-              
-              <a class="button button-github" href="https://github.com/Z4ck404" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/github.svg" alt="GitHub Logo">GitHub</a>
-              <a class="button button-linked" href="https://www.linkedin.com/in/zakaria-elbazi/" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/linkedin.svg" alt="LinkedIn Logo">LinkedIn</a>
-              <a class="button button-medium" href="https://elbazi.me" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/medium.svg" alt="Medium Logo">Medium</a>
-              <a class="button button-unsplash" href="https://unsplash.com/@z4ck404" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/unsplash.svg" alt="Unsplash Logo">Unsplash</a>   
-              <a class="button button-default" href="https://cv.elbazi.co" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-website.svg" alt="Website Icon">CV</a>         
-      </div>
-  
-      <!-- Feel free to add your own footer information, including updating `privacy.html` to reflect how your LittleLink fork is set up -->
-      <footer>
-        <a href="https://elbazi.co">elbazi.co</a> | Fork of <a href="https://littlelink.io" target="_blank" rel="noopener">LittleLink</a>
-      </footer>
-    
+    <div id="boot-screen">
+        <div id="boot-text"></div>
     </div>
-  </div>
 
+    <div class="container" id="terminal" onclick="focusInput()">
+        <div class="cmd-line" id="active-line" style="display:none;">
+            <span class="user">visitor</span><span class="at">@</span><span class="host">elbazi.co</span>:<span class="path">~</span><span class="prompt-sign">$</span>
+            <span id="typed-command"></span><span class="cursor"></span>
+        </div>
+    </div>
+
+    <input type="text" id="real-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+
+    <div class="status-bar">
+        <span><i class="fas fa-server"></i> PARIS-FR-REGION</span>
+        <span><i class="fas fa-user-shield"></i> ZAKARIA.ELBAZI</span>
+        <span id="clock">00:00:00</span>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const USER = "visitor";
+        const HOST = "elbazi.co";
+        
+        // --- BOOT SEQUENCE TEXT ---
+        const bootText = [
+            "[ OK ] Initializing Kernel...",
+            "[ OK ] Loading User Profile: Zakaria EL BAZI...",
+            "[INFO] Detected Location: Paris, France",
+            "[INFO] Verified Certs: CGOA, AWS SAA, Terraform, KCNA...",
+            "[ OK ] Mounting File System (7+ Years Exp)...",
+            "[ OK ] Starting Services: Docker, K8s, OpenTelemetry...",
+            "[ OK ] Starting Shell Interface...",
+            "ACCESS GRANTED."
+        ];
+
+        // --- DOM ELEMENTS ---
+        const terminal = document.getElementById('terminal');
+        const activeLine = document.getElementById('active-line');
+        const typedCommandSpan = document.getElementById('typed-command');
+        const realInput = document.getElementById('real-input');
+        const bootScreen = document.getElementById('boot-screen');
+        const bootContent = document.getElementById('boot-text');
+
+        let history = [];
+        let historyIndex = -1;
+        let isProcessing = false;
+
+        // --- BOOT SEQUENCE ---
+        async function runBoot() {
+            for (let line of bootText) {
+                const p = document.createElement('div');
+                if(line.includes("[ OK ]")) p.innerHTML = line.replace("[ OK ]", "<span style='color:var(--term-green)'>[ OK ]</span>");
+                else if(line.includes("[INFO]")) p.innerHTML = line.replace("[INFO]", "<span style='color:var(--term-blue)'>[INFO]</span>");
+                else p.innerText = line;
+                bootContent.appendChild(p);
+                await sleep(100);
+            }
+            await sleep(500);
+            bootScreen.style.display = 'none';
+            activeLine.style.display = 'flex';
+            
+            await typeCommand("help");
+            await processCommand("help");
+            focusInput();
+        }
+
+        async function typeCommand(text) {
+            isProcessing = true;
+            typedCommandSpan.innerText = "";
+            for (let i = 0; i < text.length; i++) {
+                typedCommandSpan.innerText += text[i];
+                await sleep(30);
+            }
+            await sleep(100);
+            addToHistory(text, null);
+            typedCommandSpan.innerText = "";
+        }
+
+        function focusInput() { 
+            if(!isProcessing) {
+                realInput.focus(); 
+                const val = realInput.value;
+                realInput.value = '';
+                realInput.value = val;
+            }
+        }
+
+        realInput.addEventListener('input', () => { typedCommandSpan.innerText = realInput.value; });
+
+        document.addEventListener('keydown', async (e) => {
+            if (isProcessing) { e.preventDefault(); return; }
+            realInput.focus();
+
+            if (e.key === 'Enter') {
+                const cmd = realInput.value.trim();
+                if(cmd) {
+                    history.push(cmd);
+                    historyIndex = history.length;
+                    realInput.value = "";
+                    typedCommandSpan.innerText = "";
+                    addToHistory(cmd, null);
+                    await processCommand(cmd);
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    realInput.value = history[historyIndex];
+                    typedCommandSpan.innerText = realInput.value;
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < history.length - 1) {
+                    historyIndex++;
+                    realInput.value = history[historyIndex];
+                    typedCommandSpan.innerText = realInput.value;
+                } else {
+                    historyIndex = history.length;
+                    realInput.value = "";
+                    typedCommandSpan.innerText = "";
+                }
+            }
+        });
+
+        function addToHistory(cmd, outputContent) {
+            const historyDiv = document.createElement('div');
+            let promptHTML = `
+                <div class="cmd-line">
+                    <span class="user">${USER}</span><span class="at">@</span><span class="host">${HOST}</span>:<span class="path">~</span><span class="prompt-sign">$</span>
+                    <span style="margin-left: 8px;">${cmd}</span>
+                </div>`;
+            if (outputContent !== null) promptHTML += `<div class="output">${outputContent}</div>`;
+            historyDiv.innerHTML = promptHTML;
+            terminal.insertBefore(historyDiv, activeLine);
+        }
+
+        // --- COMMAND PROCESSOR ---
+        async function processCommand(rawCmd) {
+            isProcessing = true;
+            const args = rawCmd.toLowerCase().trim().split(/\s+/);
+            let output = "";
+
+            switch(args[0]) {
+                case 'help':
+                case '?':
+                    output = `<span class="comment"># Available commands - type command name to execute</span>
+<span class="exec">about</span>      Display user profile and skills
+<span class="exec">exp</span>        Show work experience timeline
+<span class="exec">edu</span>        List education and certifications
+<span class="exec">projects</span>   Browse side projects
+<span class="exec">extra</span>      View community contributions
+<span class="exec">articles</span>   Fetch latest blog posts
+<span class="exec">contact</span>    Show contact information
+<span class="exec">clear</span>      Clear terminal screen`;
+                    break;
+
+                case 'about':
+                    output = `<span class="total">cat ~/.profile</span>
+<span class="key">USER</span>=<span class="val">"Zakaria EL BAZI"</span>
+<span class="key">ROLE</span>=<span class="val">"Senior SRE / DevOps Engineer"</span>
+<span class="key">LOCATION</span>=<span class="val">"Paris, France"</span>
+<span class="key">EXPERIENCE</span>=<span class="val">"7+ years"</span>
+<span class="key">FOCUS</span>=<span class="val">"Cloud Infrastructure, Containerization, Data Engineering"</span>
+
+<span class="total">cat ~/.techstack</span>
+<span class="key">CLOUD</span>=<span class="val">"AWS Azure GCP"</span>
+<span class="key">IAC</span>=<span class="val">"Terraform Helm Pulumi"</span>
+<span class="key">ORCHESTRATION</span>=<span class="val">"Kubernetes Docker"</span>
+<span class="key">OBSERVABILITY</span>=<span class="val">"OpenTelemetry Grafana Prometheus"</span>
+<span class="key">DATA</span>=<span class="val">"Spark Elasticsearch Airflow"</span>`;
+                    break;
+
+                case 'exp':
+                case 'experience':
+                    output = `<span class="total">ls -la ~/experience/</span>
+<span class="permissions">drwxr-xr-x</span>  <span class="size">present</span>  <span class="date">Apr 2025</span>  <span class="dir">tenable/</span>
+<span class="permissions">drwxr-xr-x</span>  <span class="size">3 years</span>  <span class="date">2022-2025</span>  <span class="dir">netapp/</span>
+<span class="permissions">drwxr-xr-x</span>  <span class="size">8 months</span>  <span class="date">2021-2022</span>  <span class="dir">societe-generale/</span>
+<span class="permissions">drwxr-xr-x</span>  <span class="size">2.5 yrs</span>  <span class="date">2019-2021</span>  <span class="dir">excelerate/</span>
+<span class="permissions">drwxr-xr-x</span>  <span class="size">1.5 yrs</span>  <span class="date">2020-2021</span>  <span class="dir">teaching/</span>
+
+<span class="total">cat ~/experience/tenable/README.md</span>
+<span class="exp-title"># Senior Site Reliability Engineer</span>
+<span class="exp-company">Tenable</span> <span class="exp-loc">• Paris</span> <span class="exp-date">• 04/2025 - Present</span>
+- Developed CLI tools to automate SRE tasks for Identity Exposure
+- Managing 4,000+ VMs and 900+ AKS clusters
+- Led observability migration to OpenTelemetry collectors
+
+<span class="total">cat ~/experience/netapp/README.md</span>
+<span class="exp-title"># Senior DevOps Engineer</span>
+<span class="exp-company">Spot By NetApp</span> <span class="exp-loc">• Paris</span> <span class="exp-date">• 2022 - 06/2025</span>
+- Lead DevOps for Ocean for Apache Spark (Managed K8s service)
+- Designed multi-cloud Terraform infrastructure & SOC2 compliance
+- Implemented auto-scaling solutions based on usage patterns
+
+<span class="total">cat ~/experience/societe-generale/README.md</span>
+<span class="exp-title"># Data & DevOps Engineer</span>
+<span class="exp-company">Société Générale</span> <span class="exp-loc">• Paris</span> <span class="exp-date">• 10/2021 - 05/2022</span>
+- Migrated Big Data environments (Horton to Cloudera)
+- Maintained CI/CD pipelines (Jenkins, SonarQube, Ansible)
+
+<span class="total">cat ~/experience/excelerate/README.md</span>
+<span class="exp-title"># Data & DevOps Engineer</span>
+<span class="exp-company">Excelerate Systems</span> <span class="exp-loc">• Bordeaux</span> <span class="exp-date">• 03/2019 - 09/2021</span>
+- Designed secure Big Data architectures (Elastic Stack, AWS)
+- Architected Search Guard security solutions for clients`;
+                    break;
+
+                case 'edu':
+                case 'education':
+                    output = `<span class="total">cat /etc/education</span>
+<span class="exp-title"># State Engineer (Master of Engineering)</span>
+<span class="exp-company">INSEA</span> <span class="exp-loc">• Rabat, Morocco</span> <span class="exp-date">• 2016 - 2019</span>
+Major: Data Engineering & Business Intelligence
+
+<span class="total">ls -la ~/.certs/</span>
+<span class="permissions">-rw-r--r--</span>  <span class="exec">CGOA</span>        Certified GitOps Associate
+<span class="permissions">-rw-r--r--</span>  <span class="exec">AWS-SAA</span>     Solutions Architect - Associate
+<span class="permissions">-rw-r--r--</span>  <span class="exec">TF-ASSOC</span>    HashiCorp Terraform Associate
+<span class="permissions">-rw-r--r--</span>  <span class="exec">KCNA</span>        Kubernetes Cloud Native Associate`;
+                    break;
+
+                case 'extra':
+                case 'volunteer':
+                    output = `<span class="total">cat ~/community/contributions.yaml</span>
+<span class="key">awsmorocco</span>:
+  <span class="key">role</span>: <span class="val">"Author & Admin"</span>
+  <span class="key">url</span>: <span class="val">"awsmorocco.com"</span>
+  <span class="key">since</span>: <span class="val">"2023"</span>
+  <span class="key">desc</span>: <span class="val">"Demystifying AWS & K8s in Moroccan dialect"</span>
+
+<span class="key">insea_it</span>:
+  <span class="key">role</span>: <span class="val">"Founder & President"</span>
+  <span class="key">period</span>: <span class="val">"2017-2018"</span>
+  <span class="key">desc</span>: <span class="val">"Led team of developers and trainers"</span>`;
+                    break;
+
+                case 'projects':
+                    output = `<span class="total">ls -la ~/projects/</span>
+<span class="permissions">drwxr-xr-x</span>  <span class="size">v0.4.0</span>  <span class="date">Nov 2025</span>  <span class="dir">cronjob-scale-down-operator/</span>
+
+<span class="total">cat ~/projects/cronjob-scale-down-operator/README.md</span>
+<span class="exp-title"># CronJob Scale Down Operator</span>
+Kubernetes operator for scheduled scaling of Deployments & StatefulSets
+
+<span class="key">FEATURES</span>=<span class="val">"cron-scheduling timezone-support cleanup-management"</span>
+<span class="key">STACK</span>=<span class="val">"Go Kubernetes Helm Prometheus"</span>
+
+<span class="ln">docs</span>    <span class="arrow">→</span>  <a href="https://cronschedules.elbazi.co/" target="_blank">cronschedules.elbazi.co</a>
+<span class="ln">repo</span>    <span class="arrow">→</span>  <a href="https://github.com/z4ck404/cronjob-scale-down-operator" target="_blank">github.com/z4ck404/cronjob-scale-down-operator</a>
+<span class="ln">charts</span>  <span class="arrow">→</span>  <a href="https://artifacthub.io/packages/helm/cronschedules/cronjob-scale-down-operator" target="_blank">artifacthub.io</a>`;
+                    break;
+
+                case 'contact':
+                    output = `<span class="total">cat ~/.netrc</span>
+<span class="key">machine</span> blog      <span class="key">login</span> zakaria  <span class="key">url</span> <a href="https://elbazi.me" target="_blank">elbazi.me</a>
+<span class="key">machine</span> website   <span class="key">login</span> zakaria  <span class="key">url</span> <a href="https://elbazi.co" target="_blank">elbazi.co</a>
+<span class="key">machine</span> linkedin  <span class="key">login</span> zakaria  <span class="key">url</span> <a href="https://linkedin.com/in/zakaria-elbazi" target="_blank">linkedin.com/in/zakaria-elbazi</a>
+<span class="key">machine</span> github    <span class="key">login</span> z4ck404  <span class="key">url</span> <a href="https://github.com/Z4ck404" target="_blank">github.com/Z4ck404</a>`;
+                    break;
+
+                case 'articles':
+                    appendOutput("Fetching remote RSS feed from elbazi.me...", true);
+                    await sleep(800);
+                    output = await fetchArticles();
+                    break;
+
+                case 'clear':
+                    terminal.innerHTML = "";
+                    terminal.appendChild(activeLine);
+                    isProcessing = false;
+                    return;
+
+                default:
+                    output = `<span style="color:var(--term-red)">Command not found: ${args[0]}</span>. Type 'help'.`;
+            }
+
+            if(output) appendOutput(output);
+            isProcessing = false;
+        }
+
+        function appendOutput(html, isTemp=false) {
+            const div = document.createElement('div');
+            div.className = 'output';
+            div.innerHTML = html;
+            terminal.insertBefore(div, activeLine);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        async function fetchArticles() {
+            const RSS_URL = 'https://elbazi.me/feed';
+            const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                if(data.status === 'ok' && data.items.length > 0) {
+                    let html = `<span class="total">curl -s elbazi.me/feed | jq '.items[:5]'</span>\n`;
+                    data.items.slice(0, 5).forEach(item => {
+                        const date = item.pubDate.split(' ')[0];
+                        html += `<span class="date">[${date}]</span> <a href="${item.link}" target="_blank">${item.title}</a>\n`;
+                    });
+                    return html;
+                }
+            } catch (e) { console.error(e); }
+            // Fallback
+            return `<span class="total">cat /var/cache/blog_posts</span>
+<span class="date">[2024]</span> <a href="https://awsmorocco.com/deploying-an-opentelemetry-native-lgtm-stack-on-kubernetes-6ed210e88d14" target="_blank">Deploying OpenTelemetry-Native LGTM Stack</a>
+<span class="date">[2024]</span> <a href="https://awsmorocco.com/kubernetes-resource-lifecycle-management-with-cronjob-scale-down-operator-bdcf533162c5" target="_blank">K8s Resource Lifecycle Management</a>
+<span class="date">[2024]</span> <a href="https://awsmorocco.com/observability-2-0-breaking-the-three-pillar-silos-for-good-bf3cdca1f40f" target="_blank">Observability 2.0: Breaking Silos</a>
+`;
+        }
+
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toISOString().split('T')[1].split('.')[0] + " UTC";
+        }, 1000);
+
+        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+        runBoot();
+    </script>
 </body>
-
 </html>
