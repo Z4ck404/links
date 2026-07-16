@@ -3,379 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>root@elbazi.co:~# links</title>
-    <meta name="description" content="Zakaria EL BAZI — all links: resume, blog, open source, communities.">
+    <title>Zakaria EL BAZI — Links</title>
+    <meta name="description" content="Zakaria EL BAZI — all links: résumé, blog, open source, communities.">
     <link rel="canonical" href="https://elbazi.co/" />
-    <meta property="og:title" content="elbazi.co — links directory" />
-    <meta property="og:description" content="Resume, blog, open source, communities — one terminal, all the links." />
+    <meta property="og:title" content="Zakaria EL BAZI — Links" />
+    <meta property="og:description" content="Résumé, blog, open source, communities — all in one place." />
+    <meta property="og:image" content="https://cv.elbazi.co/images/zakaria.jpg" />
     <meta property="og:type" content="website" />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #0a0a0a;
-            --green: #23d18b;
-            --blue: #3b8eea;
-            --red: #e74c3c;
-            --yellow: #f1c40f;
-            --purple: #b39ddb;
-            --grey: #666;
-            --text: #ddd;
+            --paper: #FCFCFA;
+            --ink: #1B1B19;
+            --ink-soft: #50504B;
+            --ink-faint: #8A8A83;
+            --line: #E9E9E3;
+            --wash: #F3F3EE;
+            --accent: #4646C0;
+            --accent-deep: #33339E;
+            --ok: #3E9B6B;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-display: 'Source Serif 4', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
         }
 
-        * { box-sizing: border-box; }
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            margin: 0;
-            background: var(--bg);
-            color: var(--green);
-            font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            min-height: 100svh;
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--ink);
+            background: var(--paper);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: rgba(70, 70, 192, 0.14);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+
+        .page {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 72px 24px 48px;
+        }
+
+        /* ---- Identity ---- */
+        .id-photo {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            object-fit: cover;
+            filter: saturate(0.88);
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .id-name {
+            font-family: var(--font-display);
+            font-size: 1.9rem;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.015em;
+            margin-bottom: 6px;
+        }
+
+        .id-role {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--ink-soft);
+            margin-bottom: 14px;
+        }
+
+        .id-status {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.02em;
+            color: var(--ink-faint);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 28px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--ok);
+            flex-shrink: 0;
+            animation: pulse 3s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(62, 155, 107, 0.35); }
+            60% { box-shadow: 0 0 0 6px rgba(62, 155, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(62, 155, 107, 0); }
+        }
+
+        /* ---- Groups ---- */
+        .group {
+            padding-top: 26px;
+        }
+
+        .group-title {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--ink-faint);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .group-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+
+        /* ---- Link rows ---- */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 18px;
+            padding: 12px 14px;
+            margin: 0 -14px;
+            border-radius: 9px;
+            color: var(--ink);
+            transition: background 0.15s;
+        }
+
+        .row:hover {
+            background: var(--wash);
+        }
+
+        .row-main h3 {
+            font-size: 0.94rem;
+            font-weight: 600;
+            line-height: 1.4;
+            transition: color 0.15s;
+        }
+
+        .row:hover .row-main h3 {
+            color: var(--accent);
+        }
+
+        .row-main p {
+            font-size: 0.8rem;
+            color: var(--ink-faint);
             line-height: 1.5;
         }
 
-        ::selection { background: rgba(35, 209, 139, 0.3); color: #fff; }
-
-        /* CRT */
-        .crt {
-            position: fixed; inset: 0;
-            pointer-events: none;
-            z-index: 100;
-            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
-                        linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06));
-            background-size: 100% 2px, 3px 100%;
-            opacity: 0.15;
+        .row-domain {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--ink-faint);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .container {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 2rem 1.2rem 6rem;
-            position: relative;
-            z-index: 60;
+        .row-domain::after {
+            content: ' ↗';
+            color: var(--line);
+            transition: color 0.15s;
         }
 
-        .user { color: var(--blue); font-weight: bold; }
-        .at { color: #fff; }
-        .host { color: var(--red); font-weight: bold; }
-        .path { color: var(--yellow); }
-        .prompt-sign { color: #fff; margin-right: 8px; }
-        .comment { color: var(--grey); font-style: italic; }
-        .total { color: var(--grey); }
-
-        .cmd-line { margin: 0.8rem 0 0.4rem; display: flex; flex-wrap: wrap; align-items: center; }
-        .output { color: var(--text); margin-bottom: 0.6rem; white-space: pre-wrap; word-break: break-word; }
-
-        a { color: var(--blue); text-decoration: none; border-bottom: 1px dotted var(--blue); }
-        a:hover { background: var(--blue); color: #000; }
-
-        #real-input { position: absolute; opacity: 0; top: -1000px; }
-        .cursor { width: 10px; height: 1.2em; background: var(--green); display: inline-block; animation: blink 1s step-end infinite; vertical-align: middle; }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* Boot */
-        #boot-screen {
-            position: fixed; inset: 0;
-            background: #000; z-index: 999;
-            padding: 2rem;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            color: #ccc; font-size: 0.9rem;
+        .row:hover .row-domain::after {
+            color: var(--accent);
         }
 
-        /* ── The links directory ── */
-        .lnk-list { margin: 0.4rem 0 1rem; }
-        .lnk {
-            display: grid;
-            grid-template-columns: 110px 110px 26px 1fr;
-            align-items: baseline;
-            gap: 8px;
-            padding: 9px 10px;
-            margin: 2px -10px;
-            border-radius: 6px;
-            text-decoration: none;
-            border-bottom: none;
-            cursor: pointer;
-            transition: background 0.15s ease, transform 0.15s ease;
-        }
-        .lnk:hover { background: rgba(35, 209, 139, 0.09); transform: translateX(4px); color: inherit; }
-        .lnk:hover .lnk-name::after { content: '_'; animation: blink 1s step-end infinite; }
-        .lnk-perm { color: var(--yellow); font-size: 0.78rem; opacity: 0.7; }
-        .lnk-name { color: var(--purple); font-weight: 700; }
-        .lnk-arrow { color: #fff; }
-        .lnk-target { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .lnk-target .desc { color: var(--grey); font-style: italic; font-size: 0.85rem; }
-        .lnk--star .lnk-name { color: var(--green); }
-        .lnk--star .lnk-perm { color: var(--green); }
-
-        /* Status bar */
-        .status-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: var(--green); color: #000;
-            padding: 5px 12px;
-            font-weight: bold; font-size: 0.82rem;
-            display: flex; justify-content: space-between; gap: 10px;
-            z-index: 101;
-        }
-        .status-bar a { color: #000; border: none; }
-        .status-bar a:hover { background: #000; color: var(--green); }
-
-        /* SSH overlay */
-        #ssh-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.92);
-            z-index: 500;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        #ssh-overlay.show { display: flex; }
-        #ssh-box {
-            font-size: 1rem;
-            color: var(--green);
-            white-space: pre-wrap;
-            max-width: 560px;
+        /* ---- Footer ---- */
+        .footer {
+            border-top: 1px solid var(--line);
+            margin-top: 40px;
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
         }
 
-        @media (max-width: 620px) {
-            body { font-size: 0.85rem; }
-            .lnk { grid-template-columns: 92px 1fr; grid-template-rows: auto auto; row-gap: 0; padding: 10px 10px; }
-            .lnk-perm { display: none; }
-            .lnk-arrow { display: none; }
-            .lnk-name { grid-column: 1; }
-            .lnk-target { grid-column: 2; }
-            .lnk-target .desc { display: block; }
+        .footer p, .footer a {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--ink-faint);
         }
 
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 480px) {
+            .page {
+                padding: 48px 20px 40px;
+            }
+
+            .id-name {
+                font-size: 1.7rem;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+
+        /* ---- Reduced motion ---- */
         @media (prefers-reduced-motion: reduce) {
-            .cursor, .lnk:hover .lnk-name::after { animation: none; }
+            .status-dot {
+                animation: none;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="crt"></div>
+    <main class="page">
 
-    <div id="boot-screen"><div id="boot-text"></div></div>
+        <header>
+            <img class="id-photo" src="https://cv.elbazi.co/images/zakaria.jpg" alt="Zakaria EL BAZI" />
+            <h1 class="id-name">Zakaria EL&nbsp;BAZI</h1>
+            <p class="id-role">Site Reliability Engineer</p>
+            <p class="id-status"><span class="status-dot" aria-hidden="true"></span>Paris, France · <span id="localTime">--:--</span></p>
+        </header>
 
-    <div id="ssh-overlay"><div id="ssh-box"></div></div>
+        <section class="group" aria-labelledby="g-work">
+            <h2 class="group-title" id="g-work">Work</h2>
+            <a class="row" href="https://cv.elbazi.co">
+                <div class="row-main">
+                    <h3>Résumé</h3>
+                    <p>Experience, certifications, talks</p>
+                </div>
+                <span class="row-domain">cv.elbazi.co</span>
+            </a>
+            <a class="row" href="https://github.com/Z4ck404" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>GitHub</h3>
+                    <p>Code and open source</p>
+                </div>
+                <span class="row-domain">github.com/Z4ck404</span>
+            </a>
+            <a class="row" href="https://cronschedules.elbazi.co/" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>CronJob Scale-Down Operator</h3>
+                    <p>Kubernetes operator — documentation</p>
+                </div>
+                <span class="row-domain">cronschedules.elbazi.co</span>
+            </a>
+        </section>
 
-    <div class="container" id="terminal" onclick="focusInput()">
-        <div class="cmd-line" id="active-line" style="display:none;">
-            <span class="user">root</span><span class="at">@</span><span class="host">elbazi.co</span>:<span class="path">~</span><span class="prompt-sign">#</span>
-            <span id="typed-command"></span><span class="cursor"></span>
-        </div>
-    </div>
+        <section class="group" aria-labelledby="g-writing">
+            <h2 class="group-title" id="g-writing">Writing</h2>
+            <a class="row" href="https://elbazi.me" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>Blog</h3>
+                    <p>Articles on Kubernetes, cloud, SRE</p>
+                </div>
+                <span class="row-domain">elbazi.me</span>
+            </a>
+            <a class="row" href="https://nubis.ma" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>Nubis Morocco</h3>
+                    <p>Cloud engineering stories from Morocco</p>
+                </div>
+                <span class="row-domain">nubis.ma</span>
+            </a>
+            <a class="row" href="https://awsmorocco.com" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>AWS Morocco</h3>
+                    <p>Community publication — founder &amp; editor</p>
+                </div>
+                <span class="row-domain">awsmorocco.com</span>
+            </a>
+        </section>
 
-    <input type="text" id="real-input" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
+        <section class="group" aria-labelledby="g-elsewhere">
+            <h2 class="group-title" id="g-elsewhere">Elsewhere</h2>
+            <a class="row" href="https://www.linkedin.com/in/zakaria-elbazi/" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>LinkedIn</h3>
+                    <p>Professional profile</p>
+                </div>
+                <span class="row-domain">linkedin.com/in/zakaria-elbazi</span>
+            </a>
+            <a class="row" href="https://unsplash.com/@z4ck404" target="_blank" rel="noopener">
+                <div class="row-main">
+                    <h3>Photography</h3>
+                    <p>Photos on Unsplash</p>
+                </div>
+                <span class="row-domain">unsplash.com/@z4ck404</span>
+            </a>
+            <a class="row" href="mailto:zakaria@elbazi.co">
+                <div class="row-main">
+                    <h3>Email</h3>
+                    <p>zakaria [at] elbazi [dot] co</p>
+                </div>
+                <span class="row-domain">mail</span>
+            </a>
+        </section>
 
-    <div class="status-bar">
-        <span>⌂ ELBAZI.CO — LINKS HUB</span>
-        <a href="https://cv.elbazi.co/?via=ssh">ssh cv.elbazi.co →</a>
-        <span id="clock">00:00:00</span>
-    </div>
+        <footer class="footer">
+            <p>&copy; 2026 Zakaria EL BAZI</p>
+            <a href="https://cv.elbazi.co">cv.elbazi.co</a>
+        </footer>
+    </main>
 
     <script>
-        // ── links data: name, url, target text, description, star ──
-        const LINKS = [
-            ['resume',   'https://cv.elbazi.co/?via=ssh', 'cv.elbazi.co',                    'interactive terminal + classic CV', true],
-            ['blog',     'https://elbazi.me',             'elbazi.me',                       'articles — K8s, cloud, SRE', false],
-            ['github',   'https://github.com/Z4ck404',    'github.com/Z4ck404',              'code & open source', false],
-            ['linkedin', 'https://www.linkedin.com/in/zakaria-elbazi/', 'linkedin.com/in/zakaria-elbazi', 'the professional facade', false],
-            ['oss',      'https://cronschedules.elbazi.co/', 'cronschedules.elbazi.co',      'cronjob-scale-down-operator docs', false],
-            ['aws-mar',  'https://awsmorocco.com',        'awsmorocco.com',                  'AWS Morocco community 🇲🇦', false],
-            ['nubis',    'https://nubis.ma',              'nubis.ma',                        'cloud stories, brewed with atay', false],
-            ['photos',   'https://unsplash.com/@z4ck404', 'unsplash.com/@z4ck404',           'sometimes I touch grass', false],
-            ['email',    'mailto:zakaria@elbazi.co',      'zakaria [at] elbazi [dot] co',    'inbox, the original API', false]
-        ];
-
-        const terminal = document.getElementById('terminal');
-        const activeLine = document.getElementById('active-line');
-        const typedCommandSpan = document.getElementById('typed-command');
-        const realInput = document.getElementById('real-input');
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        let history = [], historyIndex = -1, isProcessing = false;
-
-        function sleep(ms) {
-            if (reduceMotion || document.hidden) return Promise.resolve();
-            return new Promise(r => setTimeout(r, ms));
-        }
-
-        function focusInput() {
-            if (!isProcessing && window.matchMedia('(pointer:fine)').matches) realInput.focus();
-        }
-
-        function promptLine(cmd) {
-            return `<div class="cmd-line"><span class="user">root</span><span class="at">@</span><span class="host">elbazi.co</span>:<span class="path">~</span><span class="prompt-sign">#</span><span style="margin-left:8px;">${cmd}</span></div>`;
-        }
-
-        function addBlock(cmd, outputHTML) {
-            const div = document.createElement('div');
-            div.innerHTML = promptLine(cmd) + (outputHTML !== null ? `<div class="output">${outputHTML}</div>` : '');
-            terminal.insertBefore(div, activeLine);
-            window.scrollTo(0, document.body.scrollHeight);
-        }
-
-        function linksHTML() {
-            let html = `<span class="total">total ${LINKS.length} symlinks — click to follow</span><div class="lnk-list">`;
-            LINKS.forEach(l => {
-                const ext = l[1].startsWith('mailto') ? '' : ' target="_blank" rel="noopener"';
-                const ssh = l[0] === 'resume' ? ' data-ssh="1"' : '';
-                html += `<a class="lnk${l[4] ? ' lnk--star' : ''}" href="${l[1]}"${ext}${ssh}>
-                    <span class="lnk-perm">lrwxrwxrwx</span>
-                    <span class="lnk-name">${l[0]}</span>
-                    <span class="lnk-arrow">→</span>
-                    <span class="lnk-target">${l[2]}  <span class="desc"># ${l[3]}</span></span>
-                </a>`;
+        // Local time in Paris, refreshed every 30s
+        (function clock() {
+            const el = document.getElementById('localTime');
+            const fmt = new Intl.DateTimeFormat('en-GB', {
+                timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
             });
-            html += `</div><span class="comment"># tip: '<span style="color:var(--green)">ssh cv</span>' opens the full resume — same shell, different machine.</span>`;
-            return html;
-        }
-
-        // ── SSH handoff: the clever bridge to cv.elbazi.co ──
-        async function sshHandoff(target) {
-            isProcessing = true;
-            const overlay = document.getElementById('ssh-overlay');
-            const box = document.getElementById('ssh-box');
-            overlay.classList.add('show');
-            const steps = [
-                ['$ ssh visitor@cv.elbazi.co', 350],
-                ['Resolving host… <span style="color:var(--green)">52.222.158.42</span>', 420],
-                ['Establishing encrypted tunnel ▓▓▓▓▓▓▓▓▓▓ 100%', 500],
-                ['Forwarding session: elbazi.co → <span style="color:var(--blue)">cv.elbazi.co</span>', 420],
-                ['<span style="color:var(--green)">Connection established. Entering remote shell…</span>', 600]
-            ];
-            box.innerHTML = '';
-            for (const [text, wait] of steps) {
-                box.innerHTML += text + '\n';
-                await sleep(wait);
-            }
-            window.location.href = target;
-        }
-
-        // intercept the resume link for the ssh animation
-        document.addEventListener('click', e => {
-            const a = e.target.closest('a[data-ssh]');
-            if (a) { e.preventDefault(); sshHandoff(a.href); }
-        });
-
-        // ── commands ──
-        async function processCommand(raw) {
-            isProcessing = true;
-            const cmd = raw.toLowerCase().trim();
-            const args = cmd.split(/\s+/);
-            let output = '';
-
-            // direct link names act as `open <name>`
-            const named = LINKS.find(l => l[0] === args[0] || (args[0] === 'open' && l[0] === args[1]));
-            if (named) {
-                if (named[0] === 'resume') { addBlock(raw, null); await sshHandoff(named[1]); return; }
-                output = `opening <a href="${named[1]}" target="_blank" rel="noopener">${named[2]}</a> …`;
-                addBlock(raw, output);
-                window.open(named[1], '_blank', 'noopener');
-                isProcessing = false;
-                return;
-            }
-
-            switch (args[0]) {
-                case 'help': case '?':
-                    output = `<span class="comment"># this machine serves links. the resume lives on cv.elbazi.co</span>
-<span style="color:var(--green)">links</span>      list all symlinks <span class="comment">(or: ls)</span>
-<span style="color:var(--green)">ssh cv</span>     hop to the resume machine <span class="comment">(terminal + classic CV)</span>
-<span style="color:var(--green)">open</span>       open &lt;name&gt; — or just type the name: blog, github, nubis…
-<span style="color:var(--green)">whoami</span>     one-liner about the owner
-<span style="color:var(--green)">clear</span>      clear screen`;
-                    break;
-                case 'links': case 'ls': case 'ls -la': case 'll':
-                    output = linksHTML();
-                    break;
-                case 'whoami':
-                    output = `Zakaria EL BAZI — SRE @ Tenable, Paris. K8s ×5 certified. 🇲🇦
-<span class="comment"># the full story: </span><span style="color:var(--green)">ssh cv</span>`;
-                    break;
-                case 'ssh':
-                    if (args[1] === 'cv' || (args[1] || '').includes('cv.elbazi.co')) {
-                        addBlock(raw, null);
-                        await sshHandoff('https://cv.elbazi.co/?via=ssh');
-                        return;
-                    }
-                    output = `ssh: could not resolve "${args[1] || ''}" — known hosts: <span style="color:var(--green)">cv</span>`;
-                    break;
-                case 'sudo':
-                    output = `you're already <span class="user">root</span> here. with great power comes a links page.`;
-                    break;
-                case 'clear':
-                    terminal.querySelectorAll(':scope > div:not(#active-line)').forEach(d => d.remove());
-                    isProcessing = false;
-                    return;
-                case 'exit':
-                    output = `this IS the exit. every link leaves the building.`;
-                    break;
-                default:
-                    output = `<span style="color:var(--red)">command not found: ${args[0]}</span> — try <span style="color:var(--green)">help</span> or <span style="color:var(--green)">links</span>`;
-            }
-            addBlock(raw, output);
-            isProcessing = false;
-        }
-
-        // ── input plumbing ──
-        realInput.addEventListener('input', () => { typedCommandSpan.innerText = realInput.value; });
-        document.addEventListener('keydown', async e => {
-            if (isProcessing) return;
-            if (e.metaKey || e.ctrlKey || e.altKey) return;
-            if (document.activeElement !== realInput && e.key.length === 1) realInput.focus();
-            if (e.key === 'Enter') {
-                const cmd = realInput.value.trim();
-                realInput.value = ''; typedCommandSpan.innerText = '';
-                if (cmd) { history.push(cmd); historyIndex = history.length; await processCommand(cmd); }
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (historyIndex > 0) { historyIndex--; realInput.value = history[historyIndex]; typedCommandSpan.innerText = realInput.value; }
-            } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (historyIndex < history.length - 1) { historyIndex++; realInput.value = history[historyIndex]; }
-                else { historyIndex = history.length; realInput.value = ''; }
-                typedCommandSpan.innerText = realInput.value;
-            }
-        });
-
-        // ── boot ──
-        async function boot() {
-            const bootScreen = document.getElementById('boot-screen');
-            const bootContent = document.getElementById('boot-text');
-            const fromCV = new URLSearchParams(location.search).get('via') === 'ssh' ||
-                           document.referrer.includes('cv.elbazi.co');
-            const lines = fromCV ? [
-                '[ OK ] Incoming session from <span style="color:var(--blue)">cv.elbazi.co</span> — accepted.',
-                '[ OK ] Welcome back to the mothership.',
-                'ACCESS GRANTED.'
-            ] : [
-                '[ OK ] Mounting ~/links …',
-                '[ OK ] ' + LINKS.length + ' symlinks healthy.',
-                'ACCESS GRANTED.'
-            ];
-            for (const l of lines) {
-                const p = document.createElement('div');
-                p.innerHTML = l.replace('[ OK ]', "<span style='color:var(--green)'>[ OK ]</span>");
-                bootContent.appendChild(p);
-                await sleep(160);
-            }
-            await sleep(300);
-            bootScreen.style.display = 'none';
-            activeLine.style.display = 'flex';
-            addBlock('whoami', `Zakaria EL BAZI — SRE @ Tenable, Paris. K8s ×5 certified. 🇲🇦`);
-            addBlock('ls -la ~/links', linksHTML());
-            focusInput();
-        }
-
-        setInterval(() => {
-            document.getElementById('clock').innerText =
-                new Date().toISOString().split('T')[1].split('.')[0] + ' UTC';
-        }, 1000);
-
-        boot();
+            const tick = () => { el.textContent = fmt.format(new Date()); };
+            tick();
+            setInterval(tick, 30000);
+        })();
     </script>
 </body>
 </html>
